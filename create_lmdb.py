@@ -39,7 +39,7 @@ def main(args, logger):
 
 
 if __name__ == '__main__':
-    time_stamp = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+    time_stamp = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     parser = argparse.ArgumentParser(description='Script for creating lmdb database.')
     parser.add_argument('--txt', nargs='?', type=str, default='', required=True,
                         help='Path to text file containing file paths')

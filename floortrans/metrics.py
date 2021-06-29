@@ -131,7 +131,7 @@ def polygons_to_tensor(polygons_val, types_val, room_polygons_val, room_types_va
 
 def get_evaluation_tensors(val, model, split, logger, rotate=True, n_classes=44):
     images_val = val['image'].cuda()
-    labels_val = val['label']
+    # labels_val = val['label']
     height = labels_val.shape[2]
     width = labels_val.shape[3]
     img_size = (height, width)
@@ -160,8 +160,8 @@ def get_evaluation_tensors(val, model, split, logger, rotate=True, n_classes=44)
     else:
         prediction = model(images_val)
 
-    heatmaps_val, rooms_val, icons_val = post_prosessing.split_validation(
-        labels_val, img_size, split)
+    # heatmaps_val, rooms_val, icons_val = post_prosessing.split_validation(
+    #     labels_val, img_size, split)
     heatmaps, rooms, icons = post_prosessing.split_prediction(
         prediction, img_size, split)
     
@@ -180,4 +180,5 @@ def get_evaluation_tensors(val, model, split, logger, rotate=True, n_classes=44)
     pol_icons = np.argmax(predicted_classes[split[1]:], axis=0)
     
     
-    return labels_val[0, 21:].data.numpy(), np.concatenate(([rooms_seg], [icons_seg]), axis=0), np.concatenate(([pol_rooms], [pol_icons]), axis=0)
+    # return labels_val[0, 21:].data.numpy(), np.concatenate(([rooms_seg], [icons_seg]), axis=0), np.concatenate(([pol_rooms], [pol_icons]), axis=0)
+    return True, np.concatenate(([rooms_seg], [icons_seg]), axis=0), np.concatenate(([pol_rooms], [pol_icons]), axis=0)

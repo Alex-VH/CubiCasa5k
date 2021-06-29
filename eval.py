@@ -10,6 +10,7 @@ from floortrans.loaders import FloorplanSVG
 from floortrans.loaders.augmentations import DictToTensor, Compose
 from floortrans.metrics import get_evaluation_tensors, runningScore
 from tqdm import tqdm
+import os
 
 room_cls = ["Background", "Outdoor", "Wall", "Kitchen", "Living Room", "Bedroom", "Bath", "Hallway", "Railing", "Storage", "Garage", "Other rooms"]
 icon_cls = ["Empty", "Window", "Door", "Closet", "Electr. Appl.", "Toilet", "Sink", "Sauna bench", "Fire Place", "Bathtub", "Chimney"]
@@ -81,7 +82,7 @@ def evaluate(args, log_dir, writer, logger):
 
 
 if __name__ == '__main__':
-    time_stamp = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+    time_stamp = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     parser = argparse.ArgumentParser(description='Settings for evaluation')
     parser.add_argument('--arch', nargs='?', type=str, default='hg_furukawa_original',
                         help='Architecture to use [\'hg_furukawa_original, segnet etc\']')
@@ -96,7 +97,9 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    log_dir = args.log_path + '/' + time_stamp + '/'
+    log_dir = args.log_path + time_stamp 
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
     writer = SummaryWriter(log_dir)
     logger = logging.getLogger('eval')
     logger.setLevel(logging.DEBUG)
